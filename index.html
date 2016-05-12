@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<title>ROT</title>
+	</head>
+	<body>
+		<p>Input:</p>
+		<input type="textbox" id="in">
+		<p>Output:</p>
+		<p id="out"></p>
+		<hr>
+		<input id="rot" type="number" min="1" max="25">
+		<button onClick="process('en')">ENCRYPT</button>
+		<button onclick="process('de')">DECRYPT</button>
+	</body>
+	<script>
+		var base = 'abcdefghijklmnopqrstuvwxyz';
+		var caps = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		var save = ' ,."!()?&1234567890';
+		var ROT = 0;
+		var input = '';
+		var out = '';
+		
+		function process(way) {
+			ROT = document.getElementById('rot').value;
+			if(ROT > 0 && ROT < 26) {
+				out = '';
+				input = document.getElementById('in').value;
+				for(i = 0; i < input.length; i++) {
+					for(x = 0; x <= base.length; x++) {
+						if(input[i] == base[x]) {
+							switch(way) {
+								case 'en':
+									var crypt = x + +ROT;
+									break;
+								case 'de':
+									var crypt = x - +ROT;
+									break;
+							};
+							if(crypt > 25) {
+								crypt -= base.length;
+							} else if(crypt < 0) {
+								crypt += base.length;
+							};
+							out += base[crypt];
+						} else if(input[i] == caps[x]) {
+							switch(way) {
+								case 'en':
+									var crypt = x + +ROT;
+									break;
+								case 'de':
+									var crypt = x - +ROT;
+									break;
+							};
+							if(crypt > 25) {
+								crypt -= caps.length;
+							} else if(crypt < 0) {
+								crypt += caps.length;
+							};
+							out += caps[crypt];
+						} else if(input[i] == save[x]) {
+							out += input[i];
+						};
+					};
+					console.log(input[i]);
+					console.log(crypt);
+				};
+				document.getElementById('out').innerHTML = out;
+			} else {
+				document.getElementById('out').innerHTML = 'INVALID ROT NUMBER';
+			};
+		};
+	</script>
+</html>
